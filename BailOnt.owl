@@ -18,14 +18,12 @@
 @prefix dolce: <http://ontology.ip.rm.cnr.it/ontologies/DOLCE-Lite#> .
 @prefix event: <http://purl.org/NET/c4dm/event.owl#> .
 @prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix orgrel: <http://purl.org/lis590od/Fall17/OrgRel> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
 @base <http://purl.org/lis590OD/Fall17/BailOnt#> .
 
-<http://purl.org/lis590OD/Fall17/BailOnt#> rdf:type owl:Ontology ;
-                                            owl:imports <http://purl.org/NET/c4dm/event.owl> ,
-                                                        <http://purl.org/lis590od/Fall17/OrgRel> ,
-                                                        foaf: .
+<http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology .
 
 #################################################################
 #    Object Properties
@@ -36,7 +34,8 @@ event:agent rdf:type owl:ObjectProperty .
 
 
 ###  http://purl.org/NET/c4dm/event.owl#agent_in
-event:agent_in rdfs:domain foaf:Agent ;
+event:agent_in rdf:type owl:ObjectProperty ;
+               rdfs:domain foaf:Agent ;
                rdfs:range event:Event .
 
 
@@ -47,28 +46,28 @@ event:factor_of rdf:type owl:ObjectProperty ;
                            :HearingEvent .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#attendee_of
+###  http://purl.org/lis590OD/Fall17/BailOnt##attendee_of
 :attendee_of rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf event:agent_in ;
              rdfs:domain foaf:Agent ;
              rdfs:range :HearingEvent .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#bailClearedTime
+###  http://purl.org/lis590OD/Fall17/BailOnt##bailClearedTime
 :bailClearedTime rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
                  rdfs:domain :BailEvent ;
                  rdfs:range :BailCleared_Time .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#bailSetat
+###  http://purl.org/lis590OD/Fall17/BailOnt##bailSetat
 :bailSetat rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
            rdfs:domain :BailEvent ;
            rdfs:range :BailSet_Time .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
+###  http://purl.org/lis590OD/Fall17/BailOnt##defendant_in
 :defendant_in rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf event:agent_in ;
               rdfs:domain :Defendant ;
@@ -76,14 +75,14 @@ event:factor_of rdf:type owl:ObjectProperty ;
                          :HearingEvent .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#hearingBegins
+###  http://purl.org/lis590OD/Fall17/BailOnt##hearingBegins
 :hearingBegins rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
                rdfs:domain :HearingEvent ;
                rdfs:range :Hearing_Time .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#isDefendantOf
+###  http://purl.org/lis590OD/Fall17/BailOnt##isDefendantOf
 :isDefendantOf rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf event:factor_of ;
                rdfs:domain :CaseDefendant ;
@@ -91,7 +90,7 @@ event:factor_of rdf:type owl:ObjectProperty ;
                           :HearingEvent .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#presides_over
+###  http://purl.org/lis590OD/Fall17/BailOnt##presides_over
 :presides_over rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf event:agent ;
                rdfs:domain :Judge ;
@@ -119,54 +118,58 @@ event:Event rdf:type owl:Class .
 event:Factor rdf:type owl:Class .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailCleared_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt##BailCleared_Time
 :BailCleared_Time rdf:type owl:Class ;
                   rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailEvent
+###  http://purl.org/lis590OD/Fall17/BailOnt##BailEvent
 :BailEvent rdf:type owl:Class ;
            rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailSet_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt##BailSet_Time
 :BailSet_Time rdf:type owl:Class ;
               rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
+###  http://purl.org/lis590OD/Fall17/BailOnt##CaseDefendant
 :CaseDefendant rdf:type owl:Class ;
                rdfs:subClassOf event:Factor .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#CourtAppearence_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt##CourtAppearence_Time
 :CourtAppearence_Time rdf:type owl:Class ;
                       rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#CourtBranch
+###  http://purl.org/lis590OD/Fall17/BailOnt##CourtBranch
 :CourtBranch rdf:type owl:Class ;
              rdfs:subClassOf foaf:Organization .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#Defendant
+###  http://purl.org/lis590OD/Fall17/BailOnt##Defendant
 :Defendant rdf:type owl:Class ;
            rdfs:subClassOf foaf:Person .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
+###  http://purl.org/lis590OD/Fall17/BailOnt##HearingEvent
 :HearingEvent rdf:type owl:Class ;
               rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#Hearing_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt##Hearing_Time
 :Hearing_Time rdf:type owl:Class ;
               rdfs:subClassOf :CourtAppearence_Time .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#Judge
+###  http://purl.org/lis590OD/Fall17/BailOnt##Judge
 :Judge rdf:type owl:Class ;
        rdfs:subClassOf foaf:Person .
+
+
+###  http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship
+<http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class .
 
 
 ###  http://www.w3.org/2006/time#Instant
