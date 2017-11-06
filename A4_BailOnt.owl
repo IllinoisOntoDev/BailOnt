@@ -1,3 +1,4 @@
+
 @prefix : <http://purl.org/lis590OD/Fall17/BailOnt#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix tl: <http://purl.org/NET/c4dm/timeline.owl#> .
@@ -20,181 +21,189 @@
 @prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
-@base <http://purl.org/lis590OD/Fall17/BailOnt#> .
 
-<http://purl.org/lis590OD/Fall17/BailOnt#> rdf:type owl:Ontology ;
-                                            owl:imports <http://purl.org/NET/c4dm/event.owl> ,
-                                                        <http://purl.org/lis590od/Fall17/OrgRel> ,
-                                                        foaf: .
+<http://purl.org/lis590OD/Fall17/BailOnt> a owl:Ontology ;
+	owl:imports <http://purl.org/lis590od/Fall17/OrgRel> .
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/NET/c4dm/event.owl#agent
 
-#################################################################
-#    Object Properties
-#################################################################
+event:agent a owl:ObjectProperty .
+# 
+# http://purl.org/NET/c4dm/event.owl#factor_of
 
-###  http://purl.org/NET/c4dm/event.owl#agent
-event:agent rdf:type owl:ObjectProperty .
+event:factor_of a owl:ObjectProperty ;
+	rdfs:domain :CaseDefendant ;
+	rdfs:range :BailEvent , :HearingEvent .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#attendee_of
 
+:attendee_of a owl:ObjectProperty ;
+	rdfs:subPropertyOf event:agent ;
+	rdfs:domain :HearingEvent ;
+	rdfs:range foaf:Agent .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#bailClearedTime
 
-###  http://purl.org/NET/c4dm/event.owl#agent_in
-event:agent_in rdfs:domain foaf:Agent ;
-               rdfs:range event:Event .
+:bailClearedTime a owl:ObjectProperty ;
+	rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
+	rdfs:domain :BailEvent ;
+	rdfs:range :BailCleared_Time .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#bailSetat
 
+:bailSetat a owl:ObjectProperty ;
+	rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
+	rdfs:domain :BailEvent ;
+	rdfs:range :BailSet_Time .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
 
-###  http://purl.org/NET/c4dm/event.owl#factor_of
-event:factor_of rdf:type owl:ObjectProperty ;
-                rdfs:domain :CaseDefendant ;
-                rdfs:range :BailEvent ,
-                           :HearingEvent .
+:defendant_in a owl:ObjectProperty ;
+	rdfs:subPropertyOf event:agent ;
+	rdfs:domain :BailEvent , :HearingEvent ;
+	rdfs:range foaf:Agent .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#hearingBegins
 
+:hearingBegins a owl:ObjectProperty ;
+	rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
+	rdfs:domain :HearingEvent ;
+	rdfs:range :Hearing_Time .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#isDefendantOf
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#attendee_of
-:attendee_of rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf event:agent_in ;
-             rdfs:domain foaf:Agent ;
-             rdfs:range :HearingEvent .
+:isDefendantOf a owl:ObjectProperty ;
+	rdfs:subPropertyOf event:factor_of .
+# 
+# http://www.w3.org/2006/time#hasBeginning
 
+<http://www.w3.org/2006/time#hasBeginning> a owl:ObjectProperty ;
+	rdfs:domain :HearingEvent .
+# 
+# http://www.w3.org/2006/time#hasEnd
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#bailClearedTime
-:bailClearedTime rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
-                 rdfs:domain :BailEvent ;
-                 rdfs:range :BailCleared_Time .
+<http://www.w3.org/2006/time#hasEnd> a owl:ObjectProperty .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/NET/c4dm/event.owl#Event
 
+event:Event a owl:Class .
+# 
+# http://purl.org/NET/c4dm/event.owl#Factor
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#bailSetat
-:bailSetat rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
-           rdfs:domain :BailEvent ;
-           rdfs:range :BailSet_Time .
+event:Factor a owl:Class .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#BailCleared_Time
 
+:BailCleared_Time a owl:Class ;
+	rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#BailEvent
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
-:defendant_in rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf event:agent_in ;
-              rdfs:domain :Defendant ;
-              rdfs:range :BailEvent ,
-                         :HearingEvent .
+:BailEvent a owl:Class ;
+	rdfs:subClassOf :OrganizationRelationship .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#BailSet_Time
 
+:BailSet_Time a owl:Class ;
+	rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#hearingBegins
-:hearingBegins rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
-               rdfs:domain :HearingEvent ;
-               rdfs:range :Hearing_Time .
+:CaseDefendant a owl:Class ;
+	rdfs:subClassOf event:Factor .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#CourtAppearence_Time
 
+:CourtAppearence_Time a owl:Class ;
+	rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#CourtBranch
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#isDefendantOf
-:isDefendantOf rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf event:factor_of ;
-               rdfs:domain :CaseDefendant ;
-               rdfs:range :BailEvent ,
-                          :HearingEvent .
+:CourtBranch a owl:Class ;
+	rdfs:subClassOf foaf:Organization .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#Defendant
 
+:Defendant a owl:Class ;
+	rdfs:subClassOf foaf:Person .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#presides_over
-:presides_over rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf event:agent ;
-               rdfs:domain :Judge ;
-               rdfs:range :HearingEvent .
+:HearingEvent a owl:Class ;
+	rdfs:subClassOf :OrganizationRelationship .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#Hearing_Time
 
+:Hearing_Time a owl:Class ;
+	rdfs:subClassOf :CourtAppearence_Time .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#Judge
 
-###  http://www.w3.org/2006/time#hasBeginning
-<http://www.w3.org/2006/time#hasBeginning> rdf:type owl:ObjectProperty ;
-                                           rdfs:domain :HearingEvent .
+:Judge a owl:Class ;
+	rdfs:subClassOf foaf:Person .
+# 
+# http://purl.org/lis590OD/Fall17/BailOnt#OrganizationRelationship
 
+:OrganizationRelationship a owl:Class ;
+	rdfs:subClassOf event:Event .
+# 
+# http://www.w3.org/2006/time#Instant
 
-###  http://www.w3.org/2006/time#hasEnd
-<http://www.w3.org/2006/time#hasEnd> rdf:type owl:ObjectProperty .
+<http://www.w3.org/2006/time#Instant> a owl:Class .
+# 
+# http://xmlns.com/foaf/0.1/Agent
 
+foaf:Agent a owl:Class .
+# 
+# http://xmlns.com/foaf/0.1/Organization
 
-#################################################################
-#    Classes
-#################################################################
+foaf:Organization a owl:Class .
+# 
+# http://xmlns.com/foaf/0.1/Person
 
-###  http://purl.org/NET/c4dm/event.owl#Event
-event:Event rdf:type owl:Class .
+foaf:Person a owl:Class .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
 
+_:genid1 a owl:AllDisjointClasses ;
+	owl:members _:genid4 .
 
-###  http://purl.org/NET/c4dm/event.owl#Factor
-event:Factor rdf:type owl:Class .
+_:genid4 a rdf:List ;
+	rdf:first :BailCleared_Time ;
+	rdf:rest _:genid3 .
 
+_:genid3 a rdf:List ;
+	rdf:first :BailSet_Time ;
+	rdf:rest _:genid2 .
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailCleared_Time
-:BailCleared_Time rdf:type owl:Class ;
-                  rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+_:genid2 a rdf:List ;
+	rdf:first :CourtAppearence_Time ;
+	rdf:rest rdf:nil .
+# 
+# Generated by the OWL API (version 4.1.3.20151118-2017) https://github.com/owlcs/owlapi
 
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailEvent
-:BailEvent rdf:type owl:Class ;
-           rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailSet_Time
-:BailSet_Time rdf:type owl:Class ;
-              rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
-:CaseDefendant rdf:type owl:Class ;
-               rdfs:subClassOf event:Factor .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#CourtAppearence_Time
-:CourtAppearence_Time rdf:type owl:Class ;
-                      rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#CourtBranch
-:CourtBranch rdf:type owl:Class ;
-             rdfs:subClassOf foaf:Organization .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#Defendant
-:Defendant rdf:type owl:Class ;
-           rdfs:subClassOf foaf:Person .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
-:HearingEvent rdf:type owl:Class ;
-              rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#Hearing_Time
-:Hearing_Time rdf:type owl:Class ;
-              rdfs:subClassOf :CourtAppearence_Time .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#Judge
-:Judge rdf:type owl:Class ;
-       rdfs:subClassOf foaf:Person .
-
-
-###  http://www.w3.org/2006/time#Instant
-<http://www.w3.org/2006/time#Instant> rdf:type owl:Class .
-
-
-###  http://xmlns.com/foaf/0.1/Agent
-foaf:Agent rdf:type owl:Class .
-
-
-###  http://xmlns.com/foaf/0.1/Organization
-foaf:Organization rdf:type owl:Class .
-
-
-###  http://xmlns.com/foaf/0.1/Person
-foaf:Person rdf:type owl:Class .
-
-
-#################################################################
-#    General axioms
-#################################################################
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :BailCleared_Time
-                :BailSet_Time
-                :CourtAppearence_Time
-              )
-] .
-
-
-###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
