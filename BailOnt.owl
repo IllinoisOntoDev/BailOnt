@@ -21,7 +21,7 @@
 @prefix orgrel: <http://purl.org/lis590od/Fall17/OrgRel> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
-@base <http://purl.org/lis590OD/Fall17/BailOnt#> .
+@base <http://purl.org/lis590OD/Fall17/BailOnt> .
 
 <http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology .
 
@@ -46,55 +46,62 @@ event:factor_of rdf:type owl:ObjectProperty ;
                            :HearingEvent .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##attendee_of
+###  http://purl.org/lis590OD/Fall17/BailOnt#attendee_of
 :attendee_of rdf:type owl:ObjectProperty ;
              rdfs:subPropertyOf event:agent_in ;
              rdfs:domain foaf:Agent ;
-             rdfs:range :HearingEvent .
+             rdfs:range :HearingEvent ;
+             rdfs:comment "The “attendee_of” object property relates agent/foaf:person classes to the court events in which they are acting agents." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##bailClearedTime
-:bailClearedTime rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
-                 rdfs:domain :BailEvent ;
-                 rdfs:range :BailCleared_Time .
+###  http://purl.org/lis590OD/Fall17/BailOnt#bailClearedAt
+:bailClearedAt rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
+               rdfs:domain :BailEvent ;
+               rdfs:range :BailCleared_Time ;
+               rdfs:comment "The “bailClearedTime” object property is the ending time of a BailEvent class instance. The range is a time instance of “BailCleared_Time”." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##bailSetat
-:bailSetat rdf:type owl:ObjectProperty ;
+###  http://purl.org/lis590OD/Fall17/BailOnt#bailSetAt
+:bailSetAt rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
            rdfs:domain :BailEvent ;
-           rdfs:range :BailSet_Time .
+           rdfs:range :BailSet_Time ;
+           rdfs:comment "The “bailSetat” object property relates the BailEvent class to the time instant class BailSet_Time. It is a sub-property of event beginning / beginning times." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##defendant_in
+###  http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
 :defendant_in rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf event:agent_in ;
               rdfs:domain :Defendant ;
               rdfs:range :BailEvent ,
-                         :HearingEvent .
+                         :HearingEvent ;
+              rdfs:comment "The “defendant_in” object property relates the agent/foaf:person of Defendant to the OrgRel events in which they are acting agents." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##hearingBegins
+###  http://purl.org/lis590OD/Fall17/BailOnt#hearingBegins
 :hearingBegins rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
                rdfs:domain :HearingEvent ;
-               rdfs:range :Hearing_Time .
+               rdfs:range :Hearing_Time ;
+               rdfs:comment "The “hearingBegins” object property relates the HearingEvent class to the time instant class Hearing_Time. It is a sub-property of event beginning / beginning times." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##isDefendantOf
+###  http://purl.org/lis590OD/Fall17/BailOnt#isDefendantOf
 :isDefendantOf rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf event:factor_of ;
                rdfs:domain :CaseDefendant ;
                rdfs:range :BailEvent ,
-                          :HearingEvent .
+                          :HearingEvent ;
+               rdfs:comment "The “isDefendantOf” object property relates the factor class of CaseDefandant to the OrgRel Events in which they are a factor. Ex. the person “Jim” as the defendant factor/topic of a BailEvent." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##presides_over
+###  http://purl.org/lis590OD/Fall17/BailOnt#presides_over
 :presides_over rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf event:agent ;
                rdfs:domain :Judge ;
-               rdfs:range :HearingEvent .
+               rdfs:range :HearingEvent ;
+               rdfs:comment "The “presides_over” object property relates the Judge to the OrgRel event in which they are an agent." .
 
 
 ###  http://www.w3.org/2006/time#hasBeginning
@@ -118,58 +125,69 @@ event:Event rdf:type owl:Class .
 event:Factor rdf:type owl:Class .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##BailCleared_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt#BailCleared_Time
 :BailCleared_Time rdf:type owl:Class ;
-                  rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+                  rdfs:subClassOf <http://www.w3.org/2006/time#Instant> ;
+                  rdfs:comment "The “BailCleared_Time” is a subclass of time instances. If this time exists it can be inferred that a hearing was attended and a BailEvent is over." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##BailEvent
+###  http://purl.org/lis590OD/Fall17/BailOnt#BailEvent
 :BailEvent rdf:type owl:Class ;
-           rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
+           rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
+           rdfs:comment "The \"BailEvent\" is the main bail construction. It starts when the bail is set and ends when the bail is cleared (upon hearing attendance) or forfeit (upon hearing non-attendance)" .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##BailSet_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt#BailSet_Time
 :BailSet_Time rdf:type owl:Class ;
-              rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+              rdfs:subClassOf <http://www.w3.org/2006/time#Instant> ;
+              rdfs:comment "The “BailSet_Time” is a subclass of time instances. If this time exists it starts a BailEvent." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##CaseDefendant
+###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
 :CaseDefendant rdf:type owl:Class ;
-               rdfs:subClassOf event:Factor .
+               rdfs:subClassOf event:Factor ;
+               rdfs:comment "The “CaseDefendant” is the topic or factor of a hearing or bail event." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##CourtAppearence_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt#CourtAppearence_Time
 :CourtAppearence_Time rdf:type owl:Class ;
-                      rdfs:subClassOf <http://www.w3.org/2006/time#Instant> .
+                      rdfs:subClassOf <http://www.w3.org/2006/time#Instant> ;
+                      rdfs:comment "The “CourtApperance_Time” is a subclass of time instances and a superclass to Hearing_Time and possibly an Arraignment time could be integrated at this level." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##CourtBranch
+###  http://purl.org/lis590OD/Fall17/BailOnt#CourtBranch
 :CourtBranch rdf:type owl:Class ;
-             rdfs:subClassOf foaf:Organization .
+             rdfs:subClassOf foaf:Organization ;
+             rdfs:comment "The “CourtBranch” class is a subclass of organization and refers to the kind of court in which the hearing will be seen. Traffic court, etc." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##Defendant
+###  http://purl.org/lis590OD/Fall17/BailOnt#Defendant
 :Defendant rdf:type owl:Class ;
-           rdfs:subClassOf foaf:Person .
+           rdfs:subClassOf foaf:Person ;
+           rdfs:comment "The “Defendant” is the agent which can take actions in the OrgRel events. BailEvent and HearingEvent." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##HearingEvent
+###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
 :HearingEvent rdf:type owl:Class ;
-              rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
+              rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
+              rdfs:comment "The “HearingEvent” is the court event at which the defendant is an agent and over which the judge presides. It is a organization relationship between the court system, the defendant, and other active agents." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##Hearing_Time
+###  http://purl.org/lis590OD/Fall17/BailOnt#Hearing_Time
 :Hearing_Time rdf:type owl:Class ;
-              rdfs:subClassOf :CourtAppearence_Time .
+              rdfs:subClassOf :CourtAppearence_Time ;
+              rdfs:comment "The “Hearing_Time” is a subclass of CourtApperance_Time. It is the scheduled time of the HearingEvent." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt##Judge
+###  http://purl.org/lis590OD/Fall17/BailOnt#Judge
 :Judge rdf:type owl:Class ;
-       rdfs:subClassOf foaf:Person .
+       rdfs:subClassOf foaf:Person ;
+       rdfs:comment "The “Judge” is a class of persons that set bails and preside over hearings." .
 
 
 ###  http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship
-<http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class .
+<http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class ;
+                                                                  rdfs:subClassOf event:Event .
 
 
 ###  http://www.w3.org/2006/time#Instant
@@ -186,18 +204,6 @@ foaf:Organization rdf:type owl:Class .
 
 ###  http://xmlns.com/foaf/0.1/Person
 foaf:Person rdf:type owl:Class .
-
-
-#################################################################
-#    General axioms
-#################################################################
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :BailCleared_Time
-                :BailSet_Time
-                :CourtAppearence_Time
-              )
-] .
 
 
 ###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
