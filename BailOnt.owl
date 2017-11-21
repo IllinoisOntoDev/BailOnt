@@ -39,11 +39,35 @@ event:agent_in rdf:type owl:ObjectProperty ;
                rdfs:range event:Event .
 
 
+###  http://purl.org/NET/c4dm/event.owl#factor
+event:factor rdf:type owl:ObjectProperty .
+
+
 ###  http://purl.org/NET/c4dm/event.owl#factor_of
 event:factor_of rdf:type owl:ObjectProperty ;
                 rdfs:domain :CaseDefendant ;
                 rdfs:range :BailEvent ,
                            :HearingEvent .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#appearsBefore
+:appearsBefore rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf event:agent ;
+               owl:inverseOf :oversees ;
+               rdfs:domain :BailEvent ,
+                           :HearingEvent ;
+               rdfs:range :CourtBranch .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#attended_by
+:attended_by rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf event:agent ;
+             owl:inverseOf :attendee_of ;
+             rdfs:domain :BailEvent ,
+                         :HearingEvent ;
+             rdfs:range :Defendant ,
+                        :Judge ;
+             rdfs:comment "Inverse property to “attendee_of” object property. This property also relates agent/foaf:person classes to the court events in which they are acting agents. Domain of OrgRel/Court events and range of Person/Judge or Defendant." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#attendee_of
@@ -73,10 +97,30 @@ event:factor_of rdf:type owl:ObjectProperty ;
 ###  http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
 :defendant_in rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf event:agent_in ;
+              owl:inverseOf :has_defendent ;
               rdfs:domain :Defendant ;
               rdfs:range :BailEvent ,
                          :HearingEvent ;
               rdfs:comment "The “defendant_in” object property relates the agent/foaf:person of Defendant to the OrgRel events in which they are acting agents." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#hasCaseDefendant
+:hasCaseDefendant rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf event:factor ;
+                  owl:inverseOf :isCaseDefendantOf ;
+                  rdfs:domain :BailEvent ,
+                              :HearingEvent ;
+                  rdfs:range :CaseDefendant ;
+                  rdfs:comment "Inverse of the “isDefendantOf” object property. The domain of this property is the OrgRel Court events of Bail and Hearing. The range is the CaseDefendant Factor." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#has_defendent
+:has_defendent rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf event:agent ;
+               rdfs:domain :BailEvent ,
+                           :HearingEvent ;
+               rdfs:range :Defendant ;
+               rdfs:comment "Inverse propery of the “defendant_in” object property. This also relates the agent/foaf:person of Defendant to the OrgRel events in which they are acting agents. Domain is the Event/OrgRel and Range is the Person/Defendant." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#hearingBegins
@@ -87,13 +131,30 @@ event:factor_of rdf:type owl:ObjectProperty ;
                rdfs:comment "The “hearingBegins” object property relates the HearingEvent class to the time instant class Hearing_Time. It is a sub-property of event beginning / beginning times." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#isDefendantOf
-:isDefendantOf rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf event:factor_of ;
-               rdfs:domain :CaseDefendant ;
-               rdfs:range :BailEvent ,
-                          :HearingEvent ;
-               rdfs:comment "The “isDefendantOf” object property relates the factor class of CaseDefandant to the OrgRel Events in which they are a factor. Ex. the person “Jim” as the defendant factor/topic of a BailEvent." .
+###  http://purl.org/lis590OD/Fall17/BailOnt#isCaseDefendantOf
+:isCaseDefendantOf rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf event:factor_of ;
+                   rdfs:domain :CaseDefendant ;
+                   rdfs:range :BailEvent ,
+                              :HearingEvent ;
+                   rdfs:comment "The “isDefendantOf” object property relates the factor class of CaseDefandant to the OrgRel Events in which they are a factor. Ex. the person “Jim” as the defendant factor/topic of a BailEvent." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#isPresided_by
+:isPresided_by rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf event:agent_in ;
+               owl:inverseOf :presides_over ;
+               rdfs:domain :HearingEvent ;
+               rdfs:range :Judge ;
+               rdfs:comment "The “ispresides_by” object property relates Domain of OrgRel event, to the Judge that is the agent_in that event." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#oversees
+:oversees rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf event:agent_in ;
+          rdfs:domain :CourtBranch ;
+          rdfs:range :BailEvent ,
+                     :HearingEvent .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#presides_over
@@ -133,7 +194,15 @@ event:Factor rdf:type owl:Class .
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#BailEvent
 :BailEvent rdf:type owl:Class ;
-           rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
+           rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :bailSetAt ;
+                             owl:someValuesFrom :BailSet_Time
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasCaseDefendant ;
+                             owl:someValuesFrom :CaseDefendant
+                           ] ;
            rdfs:comment "The \"BailEvent\" is the main bail construction. It starts when the bail is set and ends when the bail is cleared (upon hearing attendance) or forfeit (upon hearing non-attendance)" .
 
 
@@ -146,7 +215,7 @@ event:Factor rdf:type owl:Class .
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
 :CaseDefendant rdf:type owl:Class ;
                rdfs:subClassOf event:Factor ;
-               rdfs:comment "The “CaseDefendant” is the topic or factor of a hearing or bail event." .
+               rdfs:comment "The “CaseDefendant” is the topic or factor of a hearing or bail event. This is not a subclass of person." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CourtAppearence_Time
@@ -169,7 +238,15 @@ event:Factor rdf:type owl:Class .
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
 :HearingEvent rdf:type owl:Class ;
-              rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
+              rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasCaseDefendant ;
+                                owl:someValuesFrom :CaseDefendant
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hearingBegins ;
+                                owl:someValuesFrom :Hearing_Time
+                              ] ;
               rdfs:comment "The “HearingEvent” is the court event at which the defendant is an agent and over which the judge presides. It is a organization relationship between the court system, the defendant, and other active agents." .
 
 
@@ -199,7 +276,8 @@ foaf:Agent rdf:type owl:Class .
 
 
 ###  http://xmlns.com/foaf/0.1/Organization
-foaf:Organization rdf:type owl:Class .
+foaf:Organization rdf:type owl:Class ;
+                  rdfs:subClassOf foaf:Agent .
 
 
 ###  http://xmlns.com/foaf/0.1/Person
