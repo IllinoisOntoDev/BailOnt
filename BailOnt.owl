@@ -197,6 +197,7 @@ event:Factor rdf:type owl:Class .
                                                 ) ;
                              rdf:type owl:Class
                            ] ;
+           owl:disjointWith :HearingEvent ;
            rdfs:comment "The \"BailEvent\" is the main bail construction. It starts when the bail is set and ends when the bail is cleared (upon hearing attendance) or forfeit (upon hearing non-attendance)" .
 
 
@@ -300,7 +301,8 @@ foaf:Person rdf:type owl:Class .
 ###  http://purl.org/lis590OD/Fall17/BailOnt#Bail_Smith_1110
 :Bail_Smith_1110 rdf:type owl:NamedIndividual ,
                           :JusticeSystem_Event ;
-                 :bailSetAt :BailSet_2017_11_24 .
+                 :bailSetAt :BailSet_2017_11_24 ;
+                 :hasCaseDefendant :CaseDef_Smith_1110 .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDef_Smith_1110
