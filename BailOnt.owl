@@ -51,7 +51,10 @@ event:factor_of rdf:type owl:ObjectProperty ;
 
 ###  http://purl.org/NET/c4dm/event.owl#time
 event:time rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf <http://www.w3.org/2006/time#hasTime> .
+           rdfs:subPropertyOf <http://www.w3.org/2006/time#hasTime> ;
+           rdfs:domain <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
+           rdfs:range <http://www.w3.org/2006/time#Interval> ;
+           rdfs:comment "Object property relating the OrgRel Event to the Time interval class that is defining that event's time range." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#appearsBefore
@@ -218,7 +221,8 @@ event:Factor rdf:type owl:Class .
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#BailTime
 :BailTime rdf:type owl:Class ;
-          rdfs:subClassOf <http://www.w3.org/2006/time#Interval> .
+          rdfs:subClassOf <http://www.w3.org/2006/time#Interval> ;
+          rdfs:comment "The time interval that relates time instants to the BailEvent class. How we are defining the temporal extent of the OrgRel." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
