@@ -23,8 +23,7 @@
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
 @base <http://purl.org/lis590OD/Fall17/BailOnt> .
 
-<http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology ;
-                                           owl:imports <http://purl.org/lis590OD/Fall17/CrimeChargeOnt> .
+<http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology .
 
 #################################################################
 #    Object Properties
@@ -48,6 +47,11 @@ event:factor rdf:type owl:ObjectProperty .
 event:factor_of rdf:type owl:ObjectProperty ;
                 rdfs:domain :CaseDefendant ;
                 rdfs:range <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> .
+
+
+###  http://purl.org/NET/c4dm/event.owl#time
+event:time rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf <http://www.w3.org/2006/time#hasTime> .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#appearsBefore
@@ -79,7 +83,7 @@ event:factor_of rdf:type owl:ObjectProperty ;
 ###  http://purl.org/lis590OD/Fall17/BailOnt#bailClearedAt
 :bailClearedAt rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
-               rdfs:domain :BailEvent ;
+               rdfs:domain :BailTime ;
                rdfs:range :BailCleared_Time ;
                rdfs:comment "The “bailClearedTime” object property is the ending time of a BailEvent class instance. The range is a time instance of “BailCleared_Time”." .
 
@@ -87,7 +91,7 @@ event:factor_of rdf:type owl:ObjectProperty ;
 ###  http://purl.org/lis590OD/Fall17/BailOnt#bailSetAt
 :bailSetAt rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
-           rdfs:domain :BailEvent ;
+           rdfs:domain :BailTime ;
            rdfs:range :BailSet_Time ;
            rdfs:comment "The “bailSetat” object property relates the BailEvent class to the time instant class BailSet_Time. It is a sub-property of event beginning / beginning times." .
 
@@ -166,6 +170,10 @@ event:factor_of rdf:type owl:ObjectProperty ;
 <http://www.w3.org/2006/time#hasEnd> rdf:type owl:ObjectProperty .
 
 
+###  http://www.w3.org/2006/time#hasTime
+<http://www.w3.org/2006/time#hasTime> rdf:type owl:ObjectProperty .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -206,6 +214,11 @@ event:Factor rdf:type owl:Class .
 :BailSet_Time rdf:type owl:Class ;
               rdfs:subClassOf <http://www.w3.org/2006/time#Instant> ;
               rdfs:comment "The “BailSet_Time” is a subclass of time instances. If this time exists it starts a BailEvent." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#BailTime
+:BailTime rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/2006/time#Interval> .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
@@ -271,8 +284,12 @@ event:Factor rdf:type owl:Class .
 
 
 ###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson
+<http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson> rdf:type owl:Class .
+
 
 ###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Judge
+<http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Judge> rdf:type owl:Class .
+
 
 ###  http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship
 <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class ;
@@ -281,6 +298,10 @@ event:Factor rdf:type owl:Class .
 
 ###  http://www.w3.org/2006/time#Instant
 <http://www.w3.org/2006/time#Instant> rdf:type owl:Class .
+
+
+###  http://www.w3.org/2006/time#Interval
+<http://www.w3.org/2006/time#Interval> rdf:type owl:Class .
 
 
 ###  http://xmlns.com/foaf/0.1/Agent
