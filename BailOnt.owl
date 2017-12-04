@@ -23,7 +23,8 @@
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
 @base <http://purl.org/lis590OD/Fall17/BailOnt> .
 
-<http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology .
+<http://purl.org/lis590OD/Fall17/BailOnt> rdf:type owl:Ontology ;
+                                           owl:imports <http://purl.org/lis590OD/Fall17/CrimeChargeOnt> .
 
 #################################################################
 #    Object Properties
@@ -228,6 +229,7 @@ event:Factor rdf:type owl:Class .
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#Defendant
 :Defendant rdf:type owl:Class ;
+           owl:equivalentClass <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson> ;
            rdfs:subClassOf foaf:Person ;
            rdfs:comment "The “Defendant” is the agent which can take actions in the OrgRel events. BailEvent and HearingEvent." .
 
@@ -257,6 +259,7 @@ event:Factor rdf:type owl:Class .
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#Judge
 :Judge rdf:type owl:Class ;
+       owl:equivalentClass <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Judge> ;
        rdfs:subClassOf foaf:Person ;
        rdfs:comment "The “Judge” is a class of persons that set bails and preside over hearings." .
 
@@ -266,6 +269,10 @@ event:Factor rdf:type owl:Class .
                      rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
                      rdfs:comment "Has sub-classes of bail event and Hearing event. This would be asserted and the subclass is inferred." .
 
+
+###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson
+
+###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Judge
 
 ###  http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship
 <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class ;
