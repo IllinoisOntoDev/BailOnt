@@ -108,6 +108,13 @@ event:time rdf:type owl:ObjectProperty ;
               rdfs:comment "The “defendant_in” object property relates the agent/foaf:person of Defendant to the OrgRel events in which they are acting agents." .
 
 
+###  http://purl.org/lis590OD/Fall17/BailOnt#hasBailType
+:hasBailType rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf <http://semanticweb.cs.vu.nl/2009/11/sem/eventType> ;
+             rdfs:domain :BailEvent ;
+             rdfs:range :BailType .
+
+
 ###  http://purl.org/lis590OD/Fall17/BailOnt#hasCaseDefendant
 :hasCaseDefendant rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf event:factor ;
@@ -115,6 +122,14 @@ event:time rdf:type owl:ObjectProperty ;
                   rdfs:domain :JusticeSystem_Event ;
                   rdfs:range :CaseDefendant ;
                   rdfs:comment "Inverse of the “isDefendantOf” object property. The domain of this property is the OrgRel Court events of Bail and Hearing. The range is the CaseDefendant Factor." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#hasCharges
+:hasCharges rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf event:factor ;
+            rdfs:domain :JusticeSystem_Event ;
+            rdfs:range <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge> ;
+            rdfs:comment "This property relates the justice system event to the charges that were a factor in the need for a bail or hearing." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#has_defendent
@@ -131,6 +146,14 @@ event:time rdf:type owl:ObjectProperty ;
                rdfs:domain :HearingEvent ;
                rdfs:range :Hearing_Time ;
                rdfs:comment "The “hearingBegins” object property relates the HearingEvent class to the time instant class Hearing_Time. It is a sub-property of event beginning / beginning times." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#in_WorkRelationship
+:in_WorkRelationship rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf event:agent_in ;
+                     rdfs:domain :Defendant ;
+                     rdfs:range <http://purl.org/lis590OD/Fall17/Employment_Ontology#WorkRelationship> ;
+                     rdfs:comment "Property to relate a defendate to an employment status through a work relationship." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#isCaseDefendantOf
@@ -165,6 +188,10 @@ event:time rdf:type owl:ObjectProperty ;
                rdfs:comment "The “presides_over” object property relates the Judge to the OrgRel event in which they are an agent." .
 
 
+###  http://semanticweb.cs.vu.nl/2009/11/sem/eventType
+<http://semanticweb.cs.vu.nl/2009/11/sem/eventType> rdf:type owl:ObjectProperty .
+
+
 ###  http://www.w3.org/2006/time#hasBeginning
 <http://www.w3.org/2006/time#hasBeginning> rdf:type owl:ObjectProperty .
 
@@ -175,6 +202,21 @@ event:time rdf:type owl:ObjectProperty ;
 
 ###  http://www.w3.org/2006/time#hasTime
 <http://www.w3.org/2006/time#hasTime> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#BailInfluencedBy
+prov:BailInfluencedBy rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf prov:wasInfluencedBy ;
+                      rdfs:domain :BailType ;
+                      rdfs:range <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge> ;
+                      rdfs:comment "The domain is the bail type that has been assigned, and the range is the Charge. The judge assigns a bail under the influence of charge." .
+
+
+###  http://www.w3.org/ns/prov#wasInfluencedBy
+prov:wasInfluencedBy rdf:type owl:ObjectProperty ;
+                     rdfs:domain owl:Thing ;
+                     rdfs:range owl:Thing ;
+                     rdfs:comment "Influence is the capacity of an entity, activity, or agent to have an effect on the character, development, or behavior of another by means of usage, start, end, generation, invalidation, communication, derivation, attribution, association, or delegation." .
 
 
 #################################################################
@@ -225,6 +267,12 @@ event:Factor rdf:type owl:Class .
           rdfs:comment "The time interval that relates time instants to the BailEvent class. How we are defining the temporal extent of the OrgRel." .
 
 
+###  http://purl.org/lis590OD/Fall17/BailOnt#BailType
+:BailType rdf:type owl:Class ;
+          rdfs:subClassOf <http://semanticweb.cs.vu.nl/2009/11/sem/EventType> ;
+          rdfs:comment "This is the superclass to the two kinds of bail type classes that I will have. The bail types are subclasses instead of instances because there are smaller values that can be used as instances." .
+
+
 ###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDefendant
 :CaseDefendant rdf:type owl:Class ;
                rdfs:subClassOf event:Factor ;
@@ -249,6 +297,13 @@ event:Factor rdf:type owl:Class .
            owl:equivalentClass <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson> ;
            rdfs:subClassOf foaf:Person ;
            rdfs:comment "The “Defendant” is the agent which can take actions in the OrgRel events. BailEvent and HearingEvent." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#Financial_BailType
+:Financial_BailType rdf:type owl:Class ;
+                    rdfs:subClassOf :BailType ;
+                    owl:disjointWith :Release_BailType ;
+                    rdfs:comment "The type of bail in which a financial value is assigned / recommended by the judge. The amount is a property." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
@@ -287,6 +342,16 @@ event:Factor rdf:type owl:Class .
                      rdfs:comment "Has sub-classes of bail event and Hearing event. This would be asserted and the subclass is inferred." .
 
 
+###  http://purl.org/lis590OD/Fall17/BailOnt#Release_BailType
+:Release_BailType rdf:type owl:Class ;
+                  rdfs:subClassOf :BailType ;
+                  rdfs:comment "The type of bail without a financial component. A release to another party or on one's own recognizance. Details are a label." .
+
+
+###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge
+<http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge> rdf:type owl:Class .
+
+
 ###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson
 <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#ChargedPerson> rdf:type owl:Class .
 
@@ -295,9 +360,17 @@ event:Factor rdf:type owl:Class .
 <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Judge> rdf:type owl:Class .
 
 
+###  http://purl.org/lis590OD/Fall17/Employment_Ontology#WorkRelationship
+<http://purl.org/lis590OD/Fall17/Employment_Ontology#WorkRelationship> rdf:type owl:Class .
+
+
 ###  http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship
 <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> rdf:type owl:Class ;
                                                                   rdfs:subClassOf event:Event .
+
+
+###  http://semanticweb.cs.vu.nl/2009/11/sem/EventType
+<http://semanticweb.cs.vu.nl/2009/11/sem/EventType> rdf:type owl:Class .
 
 
 ###  http://www.w3.org/2006/time#Instant
