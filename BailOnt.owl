@@ -212,12 +212,12 @@ event:time rdf:type owl:ObjectProperty ;
 <http://www.w3.org/2006/time#hasTime> rdf:type owl:ObjectProperty .
 
 
-###  http://www.w3.org/ns/prov#BailInfluencedBy
-prov:BailInfluencedBy rdf:type owl:ObjectProperty ;
-                      rdfs:subPropertyOf prov:wasInfluencedBy ;
-                      rdfs:domain :BailType ;
-                      rdfs:range <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge> ;
-                      rdfs:comment "The domain is the bail type that has been assigned, and the range is the Charge. The judge assigns a bail under the influence of charge." .
+###  http://purl.org/lis590OD/Fall17/BailOnt#bailInfluencedBy
+:bailInfluencedBy rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf prov:wasInfluencedBy ;
+                  rdfs:domain :BailType ;
+                  rdfs:range <http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge> ;
+                  rdfs:comment "The domain is the bail type that has been assigned, and the range is the Charge. The judge assigns a bail under the influence of charge." .
 
 
 ###  http://www.w3.org/ns/prov#wasInfluencedBy
