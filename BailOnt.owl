@@ -57,6 +57,14 @@ event:time rdf:type owl:ObjectProperty ;
            rdfs:comment "Object property relating the OrgRel Event to the Time interval class that is defining that event's time range." .
 
 
+###  http://purl.org/lis590OD/Fall17/BailOnt#WorkRelationship_in
+:WorkRelationship_in rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf event:agent_in ;
+                     rdfs:domain :Defendant ;
+                     rdfs:range <http://purl.org/lis590OD/Fall17/Employment_Ontology#WorkRelationship> ;
+                     rdfs:comment "Property to relate a defendate to an employment status through a work relationship." .
+
+
 ###  http://purl.org/lis590OD/Fall17/BailOnt#appearsBefore
 :appearsBefore rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf event:agent ;
@@ -88,7 +96,7 @@ event:time rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf <http://www.w3.org/2006/time#hasEnd> ;
                rdfs:domain :BailTime ;
                rdfs:range :BailCleared_Time ;
-               rdfs:comment "The “bailClearedTime” object property is the ending time of a BailEvent class instance. The range is a time instance of “BailCleared_Time”." .
+               rdfs:comment "The end instant of the BailTime" .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#bailSetAt
@@ -96,7 +104,7 @@ event:time rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf <http://www.w3.org/2006/time#hasBeginning> ;
            rdfs:domain :BailTime ;
            rdfs:range :BailSet_Time ;
-           rdfs:comment "The “bailSetat” object property relates the BailEvent class to the time instant class BailSet_Time. It is a sub-property of event beginning / beginning times." .
+           rdfs:comment "the beginning instant of the BailTime" .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#defendant_in
@@ -106,6 +114,14 @@ event:time rdf:type owl:ObjectProperty ;
               rdfs:domain :Defendant ;
               rdfs:range :JusticeSystem_Event ;
               rdfs:comment "The “defendant_in” object property relates the agent/foaf:person of Defendant to the OrgRel events in which they are acting agents." .
+
+
+###  http://purl.org/lis590OD/Fall17/BailOnt#hasBailTime
+:hasBailTime rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf event:time ;
+             rdfs:domain :JusticeSystem_Event ;
+             rdfs:range :BailTime ;
+             rdfs:comment "The object property relates the BailEvent class to the time interval class BailTime." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#hasBailType
@@ -146,14 +162,6 @@ event:time rdf:type owl:ObjectProperty ;
                rdfs:domain :HearingEvent ;
                rdfs:range :Hearing_Time ;
                rdfs:comment "The “hearingBegins” object property relates the HearingEvent class to the time instant class Hearing_Time. It is a sub-property of event beginning / beginning times." .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#in_WorkRelationship
-:in_WorkRelationship rdf:type owl:ObjectProperty ;
-                     rdfs:subPropertyOf event:agent_in ;
-                     rdfs:domain :Defendant ;
-                     rdfs:range <http://purl.org/lis590OD/Fall17/Employment_Ontology#WorkRelationship> ;
-                     rdfs:comment "Property to relate a defendate to an employment status through a work relationship." .
 
 
 ###  http://purl.org/lis590OD/Fall17/BailOnt#isCaseDefendantOf
@@ -241,8 +249,8 @@ event:Factor rdf:type owl:Class .
 :BailEvent rdf:type owl:Class ;
            rdfs:subClassOf :JusticeSystem_Event ,
                            [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                    owl:onProperty :bailSetAt ;
-                                                    owl:someValuesFrom :BailSet_Time
+                                                    owl:onProperty :hasBailTime ;
+                                                    owl:someValuesFrom :BailTime
                                                   ]
                                                   [ rdf:type owl:Restriction ;
                                                     owl:onProperty :hasCaseDefendant ;
@@ -299,13 +307,6 @@ event:Factor rdf:type owl:Class .
            rdfs:comment "The “Defendant” is the agent which can take actions in the OrgRel events. BailEvent and HearingEvent." .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#Financial_BailType
-:Financial_BailType rdf:type owl:Class ;
-                    rdfs:subClassOf :BailType ;
-                    owl:disjointWith :Release_BailType ;
-                    rdfs:comment "The type of bail in which a financial value is assigned / recommended by the judge. The amount is a property." .
-
-
 ###  http://purl.org/lis590OD/Fall17/BailOnt#HearingEvent
 :HearingEvent rdf:type owl:Class ;
               rdfs:subClassOf :JusticeSystem_Event ,
@@ -340,12 +341,6 @@ event:Factor rdf:type owl:Class .
 :JusticeSystem_Event rdf:type owl:Class ;
                      rdfs:subClassOf <http://purl.org/lis590od/Fall17/OrgRel#OrganizationRelationship> ;
                      rdfs:comment "Has sub-classes of bail event and Hearing event. This would be asserted and the subclass is inferred." .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#Release_BailType
-:Release_BailType rdf:type owl:Class ;
-                  rdfs:subClassOf :BailType ;
-                  rdfs:comment "The type of bail without a financial component. A release to another party or on one's own recognizance. Details are a label." .
 
 
 ###  http://purl.org/lis590OD/Fall17/CrimeChargeOnt#Charge
@@ -398,26 +393,14 @@ foaf:Person rdf:type owl:Class .
 #    Individuals
 #################################################################
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#BailSet_2017_11_24
-:BailSet_2017_11_24 rdf:type owl:NamedIndividual ,
-                             :BailSet_Time .
+###  http://purl.org/lis590OD/Fall17/BailOnt#FinancialBailType
+:FinancialBailType rdf:type owl:NamedIndividual ,
+                            :BailType .
 
 
-###  http://purl.org/lis590OD/Fall17/BailOnt#Bail_Smith_1110
-:Bail_Smith_1110 rdf:type owl:NamedIndividual ,
-                          :JusticeSystem_Event ;
-                 :bailSetAt :BailSet_2017_11_24 ;
-                 :hasCaseDefendant :CaseDef_Smith_1110 .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#CaseDef_Smith_1110
-:CaseDef_Smith_1110 rdf:type owl:NamedIndividual ,
-                             :CaseDefendant .
-
-
-###  http://purl.org/lis590OD/Fall17/BailOnt#Defendant_Smith_1110
-:Defendant_Smith_1110 rdf:type owl:NamedIndividual ,
-                               :Defendant .
+###  http://purl.org/lis590OD/Fall17/BailOnt#ReleaseBailType
+:ReleaseBailType rdf:type owl:NamedIndividual ,
+                          :BailType .
 
 
 ###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
